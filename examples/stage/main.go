@@ -18,13 +18,13 @@ func main() {
 	// frameHeight := float32(100)
 
 	// NOTE: Source rectangle (part of the texture to use for drawing)
-	agentSourceRec := rl.NewRectangle(0, 0, 100, 100)
+	agentSourceRec := rl.NewRectangle(0, 0, 50, 50)
 
 	// NOTE: Destination rectangle (screen rectangle where drawing part of texture)
 	// agentDestRec := rl.NewRectangle(100, 100, 200, 200)
-	agentDestRec := rl.NewRectangle(200, 200, 100*2, 100*2)
+	agentDestRec := rl.NewRectangle(100, 100, 100, 100)
 	// NOTE: Origin of the texture (rotation/scale point), it's relative to destination rectangle size
-	origin := rl.NewVector2(float32(100), float32(100))
+	origin := rl.NewVector2(float32(50), float32(50))
 
 	rotation := float32(0)
 
