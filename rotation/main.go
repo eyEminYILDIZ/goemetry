@@ -56,14 +56,14 @@ func draw(agentPoint types.Point, targetPoint types.Point) {
 		if targetPoint.X < 0 {
 			targetPoint.X = 0
 		}
-		if targetPoint.X > 700 {
-			targetPoint.X = 700
+		if targetPoint.X > (screenWidth - 100) {
+			targetPoint.X = screenWidth - 100
 		}
 		if targetPoint.Y < 0 {
 			targetPoint.Y = 0
 		}
-		if targetPoint.Y > 700 {
-			targetPoint.Y = 700
+		if targetPoint.Y > (screenHeight - 100) {
+			targetPoint.Y = screenHeight - 100
 		}
 
 		angle := formula.GetRotatingAngle(agentPoint, targetPoint)
