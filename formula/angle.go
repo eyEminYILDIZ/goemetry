@@ -22,17 +22,17 @@ func GetRotatingAngle(point1 types.Point, point2 types.Point) float64 {
 	angle := getAngle(point1, point2)
 
 	// X:+ Y:+
-	if point1.X < point2.X && point1.Y < point2.Y {
+	if point1.X <= point2.X && point1.Y <= point2.Y {
 		return (180 - angle)
 	}
 
 	// X:-  Y:+
-	if point1.X > point2.X && point1.Y < point2.Y {
+	if point1.X >= point2.X && point1.Y <= point2.Y {
 		return (180 + angle)
 	}
 
 	// X:+ Y:-
-	if point1.X < point2.X && point1.Y > point2.Y {
+	if point1.X <= point2.X && point1.Y >= point2.Y {
 		return (angle)
 	}
 

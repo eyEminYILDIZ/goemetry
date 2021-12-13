@@ -9,17 +9,17 @@ import (
 )
 
 func main() {
-	agentPoint := types.Point{X: 300, Y: 300}
-	targetPoint := types.Point{X: 300, Y: 500}
+	agentPoint := types.Point{X: 400, Y: 400}
+	targetPoint := types.Point{X: 400, Y: 600}
 
 	draw(agentPoint, targetPoint)
 }
 
 func draw(agentPoint types.Point, targetPoint types.Point) {
-	screenWidth := int32(600)
-	screenHeight := int32(600)
+	screenWidth := int32(800)
+	screenHeight := int32(800)
 
-	rl.InitWindow(screenWidth, screenHeight, "raylib [textures] examples - texture source and destination rectangles")
+	rl.InitWindow(screenWidth, screenHeight, "Rotation Calculations")
 
 	// NOTE: Textures MUST be loaded after Window initialization (OpenGL context is required)
 	agentTexture := rl.LoadTexture("agent.png")   // Texture loading
@@ -51,6 +51,19 @@ func draw(agentPoint types.Point, targetPoint types.Point) {
 		}
 		if rl.IsKeyDown(rl.KeyDown) {
 			targetPoint.Y += sensivity
+		}
+
+		if targetPoint.X < 0 {
+			targetPoint.X = 0
+		}
+		if targetPoint.X > 700 {
+			targetPoint.X = 700
+		}
+		if targetPoint.Y < 0 {
+			targetPoint.Y = 0
+		}
+		if targetPoint.Y > 700 {
+			targetPoint.Y = 700
 		}
 
 		angle := formula.GetRotatingAngle(agentPoint, targetPoint)
