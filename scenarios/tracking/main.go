@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math"
 
 	formula "github.com/eyEminYILDIZ/goemetry/formula"
 	types "github.com/eyEminYILDIZ/goemetry/types"
@@ -9,8 +10,10 @@ import (
 )
 
 func main() {
-	agentPoint := types.Point{X: 400, Y: 400}
-	targetPoint := types.Point{X: 400, Y: 600}
+	agentPoint := types.Point{}
+	targetPoint := types.Point{}
+
+	setInitialPoints(&agentPoint, &targetPoint)
 
 	draw(agentPoint, targetPoint)
 }
@@ -40,6 +43,10 @@ func draw(agentPoint types.Point, targetPoint types.Point) {
 
 	for !rl.WindowShouldClose() {
 
+		if checkCollision(agentPoint, targetPoint) {
+			setInitialPoints(&agentPoint, &targetPoint)
+		}
+
 		if rl.IsKeyDown(rl.KeyRight) {
 			targetPoint.X += sensivity
 		}
@@ -53,24 +60,16 @@ func draw(agentPoint types.Point, targetPoint types.Point) {
 			targetPoint.Y += sensivity
 		}
 
-		if targetPoint.X < 0 {
-			targetPoint.X = 0
-		}
-		if targetPoint.X > (screenWidth - 100) {
-			targetPoint.X = screenWidth - 100
-		}
-		if targetPoint.Y < 0 {
-			targetPoint.Y = 0
-		}
-		if targetPoint.Y > (screenHeight - 100) {
-			targetPoint.Y = screenHeight - 100
-		}
+		keepPointInTheArea(&targetPoint, screenWidth, screenHeight)
 
 		angle := formula.GetRotatingAngle(agentPoint, targetPoint)
 		rotation := float32(angle)
 
-		agentPoint.X++
-		agentPoint.Y++
+		nextPoint := formula.GetNextPoint(agentPoint, targetPoint, 4)
+		agentPoint.X = nextPoint.X
+		agentPoint.Y = nextPoint.Y
+
+		keepPointInTheArea(&agentPoint, screenWidth, screenHeight)
 
 		agentDestRec := rl.NewRectangle(float32(agentPoint.X), float32(agentPoint.Y), float32(agentTexture.Width*2), float32(agentTexture.Height*2))
 
@@ -99,4 +98,33 @@ func draw(agentPoint types.Point, targetPoint types.Point) {
 	rl.UnloadTexture(agentTexture)
 
 	rl.CloseWindow()
+}
+
+func checkCollision(agentPoint types.Point, targetPoint types.Point) bool {
+	xDifference := math.Abs(float64(agentPoint.X) - float64(targetPoint.X))
+	yDifference := math.Abs(float64(agentPoint.Y) - float64(targetPoint.Y))
+
+	return xDifference < 10 && yDifference < 10
+}
+
+func setInitialPoints(agentPoint *types.Point, targetPoint *types.Point) {
+	agentPoint.X = 100
+	agentPoint.Y = 100
+	targetPoint.X = 600
+	targetPoint.Y = 600
+}
+
+func keepPointInTheArea(targetPoint *types.Point, screenWidth int32, screenHeight int32) {
+	if targetPoint.X < 0 {
+		targetPoint.X = 0
+	}
+	if targetPoint.X > (screenWidth - 100) {
+		targetPoint.X = screenWidth - 100
+	}
+	if targetPoint.Y < 0 {
+		targetPoint.Y = 0
+	}
+	if targetPoint.Y > (screenHeight - 100) {
+		targetPoint.Y = screenHeight - 100
+	}
 }

@@ -1,38 +1,37 @@
 package formula
 
 import (
-	"log"
 	"math"
 
 	"github.com/eyEminYILDIZ/goemetry/types"
 )
 
-func example() {
-	debug := log.Default()
+// func example() {
+// 	debug := log.Default()
 
-	point1 := types.Point{X: 10, Y: 10}
-	point2 := types.Point{X: 15, Y: 20}
+// 	point1 := types.Point{X: 10, Y: 10}
+// 	point2 := types.Point{X: 15, Y: 20}
 
-	ang := getAngle(point1, point2)
+// 	ang := getAngle(point1, point2)
 
-	debug.Println(ang)
-}
+// 	debug.Println(ang)
+// }
 
-func GetRotatingAngle(point1 types.Point, point2 types.Point) float64 {
-	angle := getAngle(point1, point2)
+func GetRotatingAngle(agent types.Point, target types.Point) float64 {
+	angle := getAngle(agent, target)
 
 	// X:+ Y:+
-	if point1.X <= point2.X && point1.Y <= point2.Y {
+	if agent.X <= target.X && agent.Y <= target.Y {
 		return (180 - angle)
 	}
 
 	// X:-  Y:+
-	if point1.X >= point2.X && point1.Y <= point2.Y {
+	if agent.X >= target.X && agent.Y <= target.Y {
 		return (180 + angle)
 	}
 
 	// X:+ Y:-
-	if point1.X <= point2.X && point1.Y >= point2.Y {
+	if agent.X <= target.X && agent.Y >= target.Y {
 		return (angle)
 	}
 
@@ -41,9 +40,9 @@ func GetRotatingAngle(point1 types.Point, point2 types.Point) float64 {
 }
 
 // Arc-Tangent implementation
-func getAngle(point1 types.Point, point2 types.Point) float64 {
-	xDifference := math.Abs(float64(point1.X) - float64(point2.X))
-	yDifference := math.Abs(float64(point1.Y) - float64(point2.Y))
+func getAngle(agent types.Point, target types.Point) float64 {
+	xDifference := math.Abs(float64(agent.X) - float64(target.X))
+	yDifference := math.Abs(float64(agent.Y) - float64(target.Y))
 
 	ratio := xDifference / yDifference
 	angle := 180 * math.Atan(ratio) / math.Pi
